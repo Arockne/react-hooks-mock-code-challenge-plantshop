@@ -24,10 +24,24 @@ function App() {
     .then(setPlants)
   }, [])
 
+  function addNewPlant(plant) {
+    fetch('http://localhost:6001/plants', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(plant)
+    })
+    .then(r => r.json())
+    .then(data => {
+      setPlants([...plants, data])
+    })
+  }
+
   return (
     <div className="app">
       <Header />
-      <PlantPage plants={plants}/>
+      <PlantPage plants={plants} onPlantAddition={addNewPlant}/>
     </div>
   );
 }
