@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function PlantCard({ plant, onPriceChange }) {
+function PlantCard({ plant, onPriceChange, onDeletion }) {
   const [stocked, setStocked] = useState(true)
   const [price, setPrice] = useState(plant.price)
   const [changePrice, setChangePrice] = useState(false)
@@ -30,6 +30,7 @@ function PlantCard({ plant, onPriceChange }) {
       ) : (
         <button onClick={() => setStocked(stocked => !stocked)}>Out of Stock</button>
       )}
+      <button style={{background: 'red', 'marginLeft': '5px'}} onClick={() => onDeletion(id)}>💀</button>
     </li>
   );
 }

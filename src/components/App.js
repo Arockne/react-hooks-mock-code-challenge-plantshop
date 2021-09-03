@@ -69,12 +69,25 @@ function App() {
     })
   }
 
+  function onDeletion(id) {
+    fetch(`http://localhost:6001/plants/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(r => r.json())
+    .then(() => {
+      setPlants(plants.filter(plant => plant.id !== id))
+    })
+  }
+
   const updatedPlants = plants.filter(plant => plant.name.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div className="app">
       <Header />
-      <PlantPage plants={updatedPlants} onPlantAddition={addNewPlant} search={search} onSearch={setSearch} onPriceChange={onPriceChange}/>
+      <PlantPage plants={updatedPlants} onPlantAddition={addNewPlant} search={search} onSearch={setSearch} onPriceChange={onPriceChange} onDeletion={onDeletion}/>
     </div>
   );
 }
