@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 
-function PlantCard({ plant }) {
+function PlantCard({ plant, onPriceChange }) {
   const [stocked, setStocked] = useState(true)
-  const {id, name, image, price} = plant
+  const [price, setPrice] = useState(plant.price)
+  const [changePrice, setChangePrice] = useState(false)
+  const {id, name, image } = plant
+
+  function handlePriceChange(event) {
+    event.preventDefault()
+    onPriceChange(id, price)
+    setChangePrice(changePrice => !changePrice)
+  }
+
   return (
     <li className="card">
       <img src={image || "https://via.placeholder.com/400"} alt={"plant name"} />
       <h4>{name}</h4>
-      <p>Price: {price}</p>
+      {!changePrice ? (
+        <p onDoubleClick={() => setChangePrice(changePrice => !changePrice)}>Price: {price}</p>
+      ) : (
+        <form onSubmit={handlePriceChange}>
+          <input type='text' value={price} onChange={(e) => setPrice(e.target.value)}/>
+        </form>
+        )
+
+      }
       {stocked ? (
         <button className="primary" onClick={() => setStocked(stocked => !stocked)}>In Stock</button>
       ) : (
