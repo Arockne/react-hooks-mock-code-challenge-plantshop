@@ -6,17 +6,11 @@ import PlantPage from "./PlantPage";
 /*
 As a user:
 
-2. I can add a new plant to the page by submitting the form.
-  //useState within newPlantForm to make a controlled form
-  //on a submit reset the state of the form
-    //also make POST request
-    //reassign plants to have the added plant
-3. I can mark a plant as "sold out".
-4. I can search for plants by their name and see a filtered list of plants.
 */
 
 function App() {
   const [plants, setPlants] = useState([])
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetch('http://localhost:6001/plants')
@@ -38,10 +32,12 @@ function App() {
     })
   }
 
+  const updatedPlants = plants.filter(plant => plant.name.toLowerCase().includes(search.toLowerCase()))
+
   return (
     <div className="app">
       <Header />
-      <PlantPage plants={plants} onPlantAddition={addNewPlant}/>
+      <PlantPage plants={updatedPlants} onPlantAddition={addNewPlant} search={search} onSearch={setSearch}/>
     </div>
   );
 }
